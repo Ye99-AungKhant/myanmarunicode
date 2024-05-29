@@ -89,12 +89,14 @@
                             };
                             doc.content[1].table.body.forEach(function (row) {
                                 row.forEach(function (cell) {
-                                    if (knayi.fontDetect(cell.text) === 'zawgyi') {
-                                        cell.font = 'Pyidaungsu';
-                                    } else {
-                                        cell.text = knayi.fontConvert(cell.text, 'zawgyi', 'unicode')
-                                        cell.font = 'Pyidaungsu';
-                                    }
+                                    cell.font = 'Pyidaungsu';
+
+                                    // if (knayi.fontDetect(cell.text) === 'zawgyi') {
+                                    //     cell.font = 'Pyidaungsu';
+                                    // } else {
+                                    //     cell.text = knayi.fontConvert(cell.text, 'zawgyi', 'unicode')
+                                    //     cell.font = 'Pyidaungsu';
+                                    // }
                                 });
                             });
                         }
