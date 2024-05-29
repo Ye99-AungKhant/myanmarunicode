@@ -84,19 +84,18 @@
                         text: 'Export to PDF',
                         customize: function (doc) {
                             doc.defaultStyle = {
-                                font: 'Pyidaungsu',
+                                font: 'ZawgyiOne',
                                 fontSize: 10,
                             };
                             doc.content[1].table.body.forEach(function (row) {
                                 row.forEach(function (cell) {
-                                    cell.font = 'Pyidaungsu';
 
-                                    // if (knayi.fontDetect(cell.text) === 'zawgyi') {
-                                    //     cell.font = 'Pyidaungsu';
-                                    // } else {
-                                    //     cell.text = knayi.fontConvert(cell.text, 'zawgyi', 'unicode')
-                                    //     cell.font = 'Pyidaungsu';
-                                    // }
+                                    if (knayi.fontDetect(cell.text) === 'zawgyi') {
+                                        cell.font = 'ZawgyiOne';
+                                    } else {
+                                        cell.text = knayi.fontConvert(cell.text, 'zawgyi', 'unicode')
+                                        cell.font = 'ZawgyiOne';
+                                    }
                                 });
                             });
                         }
