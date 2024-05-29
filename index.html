@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DataTable Export to PDF with Myanmar Font</title>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.2.2/css/buttons.dataTables.min.css">
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.2.2/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.html5.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.68/pdfmake.min.js"></script>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.68/vfs_fonts.js"></script> -->
+    <!-- <script src="vfs_fonts.js"></script>Include your existing vfs_fonts.js -->
+    <script src="https://unpkg.com/knayi-myscript@latest/dist/knayi-myscript.min.js"></script>
+</head>
+
+<body>
+    <table id="example" class="display nowrap" style="width:100%">
+        <thead>
+            <tr>
+                <th>နာမည်</th>
+                <th>စျေးနှုန်း</th>
+                <th>ပမာဏ</th>
+                <th>စုစုပေါင်း</th>
+            </tr>
+        </thead>
+        <tbody style="text-align: center;">
+            <tr>
+                <td>အသီးဖျော်ရည်</td>
+                <td>၃၀၀၀</td>
+                <td>၂</td>
+                <td>၆၀၀၀</td>
+            </tr>
+            <tr>
+                <td>မာလာရှမ်းကော</td>
+                <td>၁၈၀၀၀</td>
+                <td>၃</td>
+                <td>၅၄၀၀၀</td>
+            </tr>
+            <tr>
+                <td>အအေး</td>
+                <td>၁၀၀၀</td>
+                <td>၂</td>
+                <td>၂၀၀၀</td>
+            </tr>
+            <!-- Add more rows as needed -->
+        </tbody>
+    </table>
+    <script src="vfs_fonts.js"></script>
+    <!-- <script src="rabbit.js"></script> -->
+
+    <script>
+        pdfMake.fonts = {
+            Roboto: {
+                normal: 'Roboto-Regular.ttf',
+                bold: 'Roboto-Medium.ttf',
+                italics: 'Roboto-Italic.ttf',
+                bolditalics: 'Roboto-MediumItalic.ttf'
+            },
+            Pyidaungsu: {
+                normal: "Pyidaungsu.ttf",
+                bold: 'Pyidaungsu.ttf',
+                italics: 'Pyidaungsu.ttf',
+                bolditalics: 'Pyidaungsu.ttf'
+            },
+            ZawgyiOne: {
+                normal: "ZawgyiOne.ttf",
+                bold: 'ZawgyiOne.ttf',
+                italics: 'ZawgyiOne.ttf',
+                bolditalics: 'ZawgyiOne.ttf'
+            },
+        };
+        $(document).ready(function () {
+            console.log(knayi.fontDetect("ရဲအောင်ခန့်"))
+            $('#example').DataTable({
+                dom: 'Bfrtip',
+                buttons: [
+                    {
+                        extend: 'pdfHtml5',
+                        text: 'Export to PDF',
+                        customize: function (doc) {
+                            doc.defaultStyle = {
+                                font: 'Pyidaungsu',
+                                fontSize: 10,
+                            };
+                            doc.content[1].table.body.forEach(function (row) {
+                                row.forEach(function (cell) {
+                                    if (knayi.fontDetect(cell.text) === 'zawgyi') {
+                                        cell.font = 'Pyidaungsu';
+                                    } else {
+                                        cell.text = knayi.fontConvert(cell.text, 'zawgyi', 'unicode')
+                                        cell.font = 'Pyidaungsu';
+                                    }
+                                });
+                            });
+                        }
+                    },
+
+                ]
+            });
+        });
+    </script>
+</body>
+
+</html>
